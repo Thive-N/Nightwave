@@ -27,21 +27,20 @@ const RegisterForm = () => {
   });
 
   return (
-    <div>
+    <div className="flex items-center justify-center min-h-screen">
       <AuthCard
-        cardTitle="Create an account"
+        cardTitle="Create a new account"
         backButtonHref="/auth/register"
         backButtonLabel="Already have an account?"
         showSocials
       >
         <Form {...form}>
           <div>
-            {" "}
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="mt-5">
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
@@ -59,7 +58,7 @@ const RegisterForm = () => {
               control={form.control}
               name="email"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="mt-5">
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
@@ -77,12 +76,13 @@ const RegisterForm = () => {
               control={form.control}
               name="password"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="mt-5">
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       type="password"
+                      autoComplete="current-password"
                       placeholder="********"
                       className="w-full"
                     />
@@ -92,7 +92,7 @@ const RegisterForm = () => {
               )}
             />
           </div>
-          <Button className="w-full">Register</Button>
+          <Button className="w-full mt-5">Register</Button>
         </Form>
       </AuthCard>
     </div>

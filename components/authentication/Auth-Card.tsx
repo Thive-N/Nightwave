@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import BackButton from "./BackButton";
+import Socials from "./Socials";
 
 type AuthCardProps = {
   children: React.ReactNode;
@@ -23,11 +24,16 @@ export const AuthCard = ({
   showSocials,
 }: AuthCardProps) => {
   return (
-    <Card className="">
+    <Card className="w-full max-w-md mx-auto sm:max-w-lg md:max-w-xl lg:max-w-2xl">
       <CardHeader>
         <CardTitle>{cardTitle}</CardTitle>
       </CardHeader>
       <CardContent>{children}</CardContent>
+      {showSocials && (
+        <CardFooter>
+          <Socials />
+        </CardFooter>
+      )}
       <CardFooter>
         <BackButton href={backButtonHref} label={backButtonLabel} />
       </CardFooter>
