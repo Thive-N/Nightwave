@@ -16,7 +16,7 @@ export const registerUser = actionClient
         })
 
         if (existingUser) {
-            return { error: 'User already exists' }
+            return { error: 'A user with this email already exists' }
         }
 
         // Create new user with these credentials
@@ -27,5 +27,6 @@ export const registerUser = actionClient
                 password: passwordHash,
             },
         })
-        return { success: 'Valid User' }
+
+        return { success: 'Account created successfully' }
     })

@@ -17,8 +17,12 @@ import {
 import { LoginSchema } from '@/types/login-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { loginUser } from '@/server/actions/login'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const LoginForm = () => {
+    const router = useRouter()
+
     // Use the useForm hook to create a form with the LoginSchema
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
@@ -32,10 +36,12 @@ const LoginForm = () => {
     const { execute, status } = useAction(loginUser, {
         onSuccess: (data) => {
             if (data.data?.error) {
-                console.log(data.data.error)
+                toast.error(data.data.error)
             }
             if (data.data?.success) {
-                console.log('User registered successfully')
+                toast.success('Success')
+                console.log('User logged in')
+                router.push('/Home')
             }
         },
     })

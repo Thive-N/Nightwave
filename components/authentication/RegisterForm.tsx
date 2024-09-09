@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { use } from 'react'
 import { AuthCard } from './Auth-Card'
 import { useForm } from 'react-hook-form'
 import { useAction } from 'next-safe-action/hooks'
@@ -17,8 +17,12 @@ import {
 } from '@/components/ui/form'
 import { RegisterSchema } from '@/types/register-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const RegisterForm = () => {
+    const router = useRouter()
+
     // Use the useForm hook to create a form with the RegisterSchema
     const form = useForm<z.infer<typeof RegisterSchema>>({
         resolver: zodResolver(RegisterSchema),
@@ -33,10 +37,11 @@ const RegisterForm = () => {
     const { execute, status } = useAction(registerUser, {
         onSuccess: (data) => {
             if (data.data?.error) {
-                console.log('User already exists')
+                toast.error(data.data.error)
             }
             if (data.data?.success) {
-                console.log('User registered successfully')
+                toast.success(data.data.success)
+                router.push('/')
             }
         },
     })
