@@ -1,8 +1,8 @@
-import RegisterForm from "@/components/authentication/RegisterForm";
-import React from "react";
+import RegisterForm from '@/components/authentication/RegisterForm'
+import React from 'react'
 
 function Login() {
-  return <RegisterForm />;
+    return <RegisterForm />
 }
 
-export default Login;
+export default Login
