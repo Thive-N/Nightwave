@@ -9,6 +9,52 @@ import bcrypt from 'bcrypt'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     adapter: PrismaAdapter(prisma),
+    session: { strategy: 'jwt' },
+    callbacks: {
+        async jwt({ token, session }) {
+            if (!token) return token
+
+            const existingUser = await prisma.user.findFirst({
+                where: {
+                    id: token.sub,
+                },
+            })
+
+            const hasOAuthAccount = await prisma.account.findFirst({
+                where: {
+                    userId: token.sub,
+                },
+            })
+
+            if (!existingUser) return token
+
+            token.isOAuth = !!hasOAuthAccount
+            token.email = existingUser.email
+            token.name = existingUser.name
+            token.picture = existingUser.image
+            token.role = existingUser.role
+
+            console.log('jwt', token)
+            return token
+        },
+        async session({ token, session }) {
+            if (session && token.sub) {
+                session.user.id = token.sub
+            }
+            if (session.user && token.role) {
+                session.user.role = token.role as string
+            }
+            if (session.user) {
+                session.user.name = token.name as string
+                session.user.email = token.email as string
+                session.user.image = token.picture as string
+                session.user.role = token.role as string
+                session.user.isOAuth = token.isOAuth as boolean
+            }
+            console.log('session', token, session)
+            return session
+        },
+    },
     providers: [
         Google,
         Github,

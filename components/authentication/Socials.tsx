@@ -11,7 +11,7 @@ const Socials = () => {
                 className="w-full"
                 variant={'outline'}
                 onClick={() =>
-                    signIn('google', { redirect: false, callbackUrl: '/' })
+                    signIn('google', { redirect: true, callbackUrl: '/Home' })
                 }
             >
                 <div className="flex items-center gap-2">
@@ -23,7 +23,7 @@ const Socials = () => {
                 className="w-full"
                 variant={'outline'}
                 onClick={() =>
-                    signIn('github', { redirect: false, callbackUrl: '/' })
+                    signIn('github', { redirect: true, callbackUrl: '/Home' })
                 }
             >
                 <div className="flex items-center gap-2">

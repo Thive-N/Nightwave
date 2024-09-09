@@ -41,7 +41,7 @@ const RegisterForm = () => {
             }
             if (data.data?.success) {
                 toast.success(data.data.success)
-                router.push('/')
+                router.push('/Home')
             }
         },
     })
@@ -54,7 +54,7 @@ const RegisterForm = () => {
     return (
         <div className="flex items-center justify-center min-h-screen">
             <AuthCard
-                cardTitle="Create a new account"
+                cardTitle="Register a new account"
                 backButtonHref="/auth/login"
                 backButtonLabel="Already have an account?"
                 showSocials

@@ -20,7 +20,7 @@ export const loginUser = actionClient
 
             // If the user doesn't exist, return an error
             if (!user) {
-                return { error: 'User does not exist' }
+                return { error: "A user with this email doesn't exist" }
             }
 
             // Try and sign in the user with the provided credentials
