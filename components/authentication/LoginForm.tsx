@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form'
 import { useAction } from 'next-safe-action/hooks'
 import { Button } from '@/components/ui/button'
 import * as z from 'zod'
-import { registerUser } from '@/server/actions/register'
 import { Input } from '@/components/ui/input'
 import {
     Form,
@@ -15,25 +14,25 @@ import {
     FormControl,
     FormMessage,
 } from '@/components/ui/form'
-import { RegisterSchema } from '@/types/register-schema'
+import { LoginSchema } from '@/types/login-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { loginUser } from '@/server/actions/login'
 
-const RegisterForm = () => {
-    // Use the useForm hook to create a form with the RegisterSchema
-    const form = useForm<z.infer<typeof RegisterSchema>>({
-        resolver: zodResolver(RegisterSchema),
+const LoginForm = () => {
+    // Use the useForm hook to create a form with the LoginSchema
+    const form = useForm<z.infer<typeof LoginSchema>>({
+        resolver: zodResolver(LoginSchema),
         defaultValues: {
-            name: '',
-            password: '',
             email: '',
+            password: '',
         },
     })
 
     // Use the useAction hook to handle form submission
-    const { execute, status } = useAction(registerUser, {
+    const { execute, status } = useAction(loginUser, {
         onSuccess: (data) => {
             if (data.data?.error) {
-                console.log('User already exists')
+                console.log(data.data.error)
             }
             if (data.data?.success) {
                 console.log('User registered successfully')
@@ -42,39 +41,21 @@ const RegisterForm = () => {
     })
 
     // Defining the onSubmit function to execute the registerUser action
-    const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+    const onSubmit = (values: z.infer<typeof LoginSchema>) => {
         execute(values)
     }
 
     return (
         <div className="flex items-center justify-center min-h-screen">
             <AuthCard
-                cardTitle="Create a new account"
-                backButtonHref="/auth/login"
-                backButtonLabel="Already have an account?"
+                cardTitle="Log in to Nightwave"
+                backButtonHref="/auth/register"
+                backButtonLabel="Don't have an account?"
                 showSocials
             >
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
                         <div>
-                            <FormField
-                                control={form.control}
-                                name="name"
-                                render={({ field }) => (
-                                    <FormItem className="mt-5">
-                                        <FormLabel>Name</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                type="text"
-                                                placeholder="John Doe"
-                                                className="w-full"
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
                             <FormField
                                 control={form.control}
                                 name="email"
@@ -114,7 +95,7 @@ const RegisterForm = () => {
                             />
                         </div>
                         <Button className="w-full mt-5" type="submit">
-                            Register
+                            Login
                         </Button>
                     </form>
                 </Form>
@@ -123,4 +104,4 @@ const RegisterForm = () => {
     )
 }
 
-export default RegisterForm
+export default LoginForm
