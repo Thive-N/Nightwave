@@ -24,7 +24,7 @@ export const AuthCard = ({
   showSocials,
 }: AuthCardProps) => {
   return (
-    <Card className="w-full max-w-md mx-auto sm:max-w-lg md:max-w-xl lg:max-w-2xl">
+    <Card className="w-full max-w-[20rem] mx-auto sm:max-w-lg md:max-w-xl lg:max-w-2xl">
       <CardHeader>
         <CardTitle>{cardTitle}</CardTitle>
       </CardHeader>
