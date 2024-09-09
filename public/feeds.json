@@ -1,0 +1,65 @@
+{
+    "feeds": [
+        {
+            "url": "https://tympanus.net/codrops/feed/",
+            "alias": "Codrops",
+            "type": "webdev"
+        },
+        {
+            "url": "https://css-tricks.com/feed/",
+            "alias": "Css Tricks",
+            "type": "webdev"
+        },
+        { "url": "https://dev.to/feed", "alias": "Dev.to", "type": "general" },
+        {
+            "url": "https://code.tutsplus.com/posts.atom",
+            "alias": "Envato Tuts",
+            "type": "webdev"
+        },
+        {
+            "url": "https://hnrss.org/frontpage",
+            "alias": "Hackers News",
+            "type": "general"
+        },
+        {
+            "url": "https://www.sitepoint.com/feed/",
+            "alias": "Sitepoint",
+            "type": "webdev"
+        },
+        {
+            "url": "https://www.smashingmagazine.com/feed",
+            "alias": "Smashing Magazine",
+            "type": "general"
+        },
+        {
+            "url": "https://hackernoon.com/tagged/css/feed",
+            "alias": "Hackernoon CSS",
+            "type": "webdev"
+        },
+        {
+            "url": "https://hackernoon.com/tagged/coding/feed",
+            "alias": "Hackernoon Coding",
+            "type": "general"
+        },
+        {
+            "url": "https://hackernoon.com/tagged/frontend/feed",
+            "alias": "Hackernoon Frontend",
+            "type": "webdev"
+        },
+        {
+            "url": "https://hackernoon.com/tagged/javascript/feed",
+            "alias": "Hackernoon Javascript",
+            "type": "webdev"
+        },
+        {
+            "url": "https://hackernoon.com/tagged/programming/feed",
+            "alias": "Hackernoon Programming",
+            "type": "general"
+        },
+        {
+            "url": "https://hackernoon.com/tagged/react/feed",
+            "alias": "Hackernoon React",
+            "type": "webdev"
+        }
+    ]
+}
