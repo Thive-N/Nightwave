@@ -1,15 +1,15 @@
 // feeds.d.ts
 interface Feed {
-    url: string
-    name: string
-    type: string
+  url: string;
+  name: string;
+  type: string;
 }
 
 interface Feeds {
-    feeds: Feed[]
+  feeds: Feed[];
 }
 
-declare module 'feeds.json' {
-    const value: Feeds
-    export default value
+declare module '@/public/feeds.json' {
+  const value: Feeds;
+  export default value;
 }

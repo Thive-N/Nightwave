@@ -1,5 +1,6 @@
 import Parser from 'rss-parser';
 import Config from '@/public/feeds.json';
+import ogs from 'open-graph-scraper';
 interface Feeds {
   feed: Feed[];
 }
@@ -17,8 +18,15 @@ interface Feed {
   [key: string]: any;
 }
 
-export const fetchFeed = async (url: string): Promise<Feeds> => {
+export const extractImageURL = async (url: string) => {
+  const { result } = await ogs({ url });
+  let urls = result.ogImage;
+  if (!urls || urls.length === 0) {
+    return null;
+  }
+  return urls[0].url;
+};
+export const fetchFeed = async (url: string) => {
   const parser = new Parser();
-  const result = await parser.parseURL(url);
-  return { feed: result.feed };
+  return await parser.parseURL(url);
 };
