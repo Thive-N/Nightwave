@@ -19,6 +19,7 @@ import { RegisterSchema } from '@/types/register-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import { cn } from '@/lib/utils'
 
 const RegisterForm = () => {
     const router = useRouter()
@@ -52,7 +53,7 @@ const RegisterForm = () => {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center h-full mt-20">
             <AuthCard
                 cardTitle="Register a new account"
                 backButtonHref="/auth/login"
@@ -118,7 +119,14 @@ const RegisterForm = () => {
                                 )}
                             />
                         </div>
-                        <Button className="w-full mt-5" type="submit">
+                        <Button
+                            className={cn(
+                                'w-full mt-5',
+                                status === 'executing' ? 'animate-pulse' : ''
+                            )}
+                            disabled={status === 'executing'}
+                            type="submit"
+                        >
                             Register
                         </Button>
                     </form>

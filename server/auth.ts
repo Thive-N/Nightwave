@@ -82,13 +82,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 }
 
                 // Check if the password matches the one in the database
-                const isValidPassword = await bcrypt.compare(
+                const isCorrectPassword = await bcrypt.compare(
                     password,
                     user.password
                 )
 
                 // If the password is incorrect then return null
-                if (!isValidPassword) {
+                if (!isCorrectPassword) {
                     return null
                 }
 

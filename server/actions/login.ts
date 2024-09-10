@@ -5,7 +5,6 @@ import { actionClient } from '@/lib/safe-action'
 import { prisma } from '@/lib/prisma'
 import { AuthError } from 'next-auth'
 import { signIn } from '@/server/auth'
-import { revalidatePath } from 'next/cache'
 
 export const loginUser = actionClient
     .schema(LoginSchema)
@@ -27,7 +26,7 @@ export const loginUser = actionClient
             await signIn('credentials', {
                 email,
                 password,
-                redirect: false,
+                redirectTo: '/Home',
             })
 
             // Return success if the user credentials are valid

@@ -4,6 +4,7 @@ import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 const inter = Inter({ subsets: ['latin'] })
 import { Toaster } from 'sonner'
+import Navbar from '@/components/Navbar'
 
 export const metadata: Metadata = {
     title: 'Nightwave',
@@ -24,8 +25,9 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
+                    <Navbar />
                     {children}
-                    <Toaster richColors position="top-right" />
+                    <Toaster richColors />
                 </ThemeProvider>
             </body>
         </html>

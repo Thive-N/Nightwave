@@ -19,6 +19,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { loginUser } from '@/server/actions/login'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import { cn } from '@/lib/utils'
 
 const LoginForm = () => {
     const router = useRouter()
@@ -38,11 +39,12 @@ const LoginForm = () => {
             if (data.data?.error) {
                 toast.error(data.data.error)
             }
-            if (data.data?.success) {
-                toast.success('Success')
-                console.log('User logged in')
-                router.push('/Home')
-            }
+        },
+        onExecute: () => {
+            toast.loading('Logging in...')
+        },
+        onSettled: (data) => {
+            toast.dismiss()
         },
     })
 
@@ -52,7 +54,7 @@ const LoginForm = () => {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center mt-20">
             <AuthCard
                 cardTitle="Log in to Nightwave"
                 backButtonHref="/auth/register"
@@ -100,7 +102,14 @@ const LoginForm = () => {
                                 )}
                             />
                         </div>
-                        <Button className="w-full mt-5" type="submit">
+                        <Button
+                            className={cn(
+                                'w-full mt-5',
+                                status === 'executing' ? 'animate-pulse' : ''
+                            )}
+                            disabled={status === 'executing'}
+                            type="submit"
+                        >
                             Login
                         </Button>
                     </form>
