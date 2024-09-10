@@ -1,6 +1,5 @@
 import Parser from 'rss-parser'
 import Config from '@/public/feeds.json'
-
 interface Feeds {
     feed: Feed[]
 }
