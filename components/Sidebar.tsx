@@ -34,7 +34,7 @@ export default function SideNav() {
   };
 
   return (
-    <div className="pr-4">
+    <div>
       <div
         className={cn(
           isSidebarExpanded ? 'w-[200px]' : 'w-[68px]',
@@ -49,7 +49,7 @@ export default function SideNav() {
                 if (item.position === 'top') {
                   return (
                     <Fragment key={idx}>
-                      <div className="">
+                      <div>
                         <SideNavItem
                           label={item.name}
                           icon={item.icon}
@@ -117,7 +117,7 @@ export const SideNavItem: React.FC<{
           href={path}
           className={`relative flex h-full items-center whitespace-nowrap rounded-md ${
             active
-              ? 'font-base bg-primary/70 text-sm text-neutral-700 shadow-sm hover:bg-secondary/50 dark:text-white'
+              ? 'font-base bg-primary/70 text-sm text-neutral-700 shadow-sm hover:bg-primary/80 dark:text-white'
               : 'text-neutral-500 hover:bg-neutral-200 hover:bg-secondary/50 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-white'
           }`}
         >
@@ -132,9 +132,9 @@ export const SideNavItem: React.FC<{
             <TooltipTrigger>
               <Link
                 href={path}
-                className={`relative flex h-full items-center whitespace-nowrap rounded-md ${
+                className={`relative flex h-full items-center whitespace-nowrap rounded-md duration-300 ease-in-out animate-in ${
                   active
-                    ? 'font-base bg-primary/70 text-sm text-neutral-700 hover:bg-neutral-200 hover:bg-secondary/50 dark:text-white'
+                    ? 'font-base bg-primary/70 text-sm text-neutral-700 hover:bg-neutral-200 hover:bg-primary/80 dark:text-white'
                     : 'text-neutral-500 hover:bg-neutral-200 hover:bg-secondary/50 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-white'
                 }`}
               >

@@ -34,7 +34,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       token.picture = existingUser.image;
       token.role = existingUser.role;
 
-      console.log('jwt', token);
+      //console.log('jwt', token);
       return token;
     },
     async session({ token, session }) {
@@ -51,7 +51,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.role = token.role as string;
         session.user.isOAuth = token.isOAuth as boolean;
       }
-      console.log('session', token, session);
+      // console.log('session', token, session);
       return session;
     },
   },

@@ -10,7 +10,7 @@ export default async function Navbar() {
   return (
     <nav className="flex h-20 items-center justify-between border-b border-t px-6">
       <ul className="flex w-full items-center justify-between">
-        <li className="text-2xl font-bold text-primary/90">Nightwave</li>
+        <li className="text-2xl font-bold text-primary/90 lg:text-3xl">Nightwave</li>
         <li></li>
         {!session ? (
           <li>

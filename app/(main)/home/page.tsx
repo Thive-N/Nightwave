@@ -6,17 +6,22 @@ export default async function Page() {
 
   let rss = await fetchFeed(feedurl);
   let rss1 = rss.items[0];
-  console.log(rss1);
+  //console.log(rss1);
 
   return (
-    <div className="min-h-3/6 w-2/6">
-      <RSSFeedCard
-        title={rss1.title ?? ''}
-        description={rss1.creator ?? ''}
-        content={rss1.contentSnippet ?? ''}
-        url={rss1.guid ?? ''}
-        tags={rss1.categories ?? []}
-      />
+    <div className="h-full w-full gap-4">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
+        {rss.items.map((item, index) => (
+          <RSSFeedCard
+            key={index}
+            title={item.title ?? ''}
+            description={item.creator ?? ''}
+            content={item.contentSnippet ?? ''}
+            url={item.guid ?? ''}
+            tags={item.categories ?? []}
+          />
+        ))}
+      </div>
     </div>
   );
 }

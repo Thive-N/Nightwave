@@ -43,7 +43,7 @@ const LoginForm = () => {
     onExecute: () => {
       toast.loading('Logging in...');
     },
-    onSettled: (data) => {
+    onSettled: () => {
       toast.dismiss();
     },
   });
