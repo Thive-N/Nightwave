@@ -1,12 +1,11 @@
 import { RSSFeedCard } from '@/components/RSSFeedCard';
 import { fetchFeed } from '@/lib/rss';
+import Config from '@/public/feeds.json';
 
 export default async function Page() {
-  let feedurl = 'https://css-tricks.com/feed/';
-
+  let feedurl = 'https://hackernoon.com/tagged/frontend/feed';
+  console.log(feedurl);
   let rss = await fetchFeed(feedurl);
-  let rss1 = rss.items[0];
-  //console.log(rss1);
 
   return (
     <div className="h-full w-full gap-4">
@@ -19,6 +18,8 @@ export default async function Page() {
             content={item.contentSnippet ?? ''}
             url={item.guid ?? ''}
             tags={item.categories ?? []}
+            isoDate={item.isoDate ?? ''}
+            guid={item.guid ?? ''}
           />
         ))}
       </div>

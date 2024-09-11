@@ -34,7 +34,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       token.picture = existingUser.image;
       token.role = existingUser.role;
 
-      //console.log('jwt', token);
+      // console.log('jwt', token);
       return token;
     },
     async session({ token, session }) {

@@ -13,15 +13,20 @@ export type RSSFeedCardProps = {
   description: string;
   content: string;
   url: string;
+  isoDate: string;
+  guid: string;
   tags: string[];
 };
 export const RSSFeedCard = async (props: RSSFeedCardProps) => {
   const imageUrl = await extractImageURL(props.url);
+  const date = new Date(props.isoDate);
   return (
     <Card className="h-[26rem] border-secondary/30 bg-secondary/15">
       <CardHeader className="py-4 pt-5">
         <div className="flex h-16 items-end">
-          <CardTitle className="line-clamp-2 text-[22px]">{props.title}</CardTitle>
+          <CardTitle className="line-clamp-2 text-[22px]">
+            <a href={props.guid}>{props.title}</a>
+          </CardTitle>
         </div>
       </CardHeader>
       <CardContent>
@@ -44,7 +49,7 @@ export const RSSFeedCard = async (props: RSSFeedCardProps) => {
         </div>
       </CardContent>
       <CardFooter>
-        <p className="text-xs">21/08/2024</p>
+        <p className="text-xs">{date.toDateString()}</p>
       </CardFooter>
     </Card>
   );
