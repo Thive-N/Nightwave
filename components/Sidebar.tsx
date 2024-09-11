@@ -12,16 +12,16 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 export default function SideNav() {
   const navItems = NavItems();
 
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(() => {
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true); // Default to true for server-side rendering
+
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       const saved = window.localStorage.getItem('sidebarExpanded');
-      if (saved === null) {
-        return true;
+      if (saved !== null) {
+        setIsSidebarExpanded(JSON.parse(saved));
       }
-      return JSON.parse(saved);
     }
-    return true; // default state if window is not defined
-  });
+  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -49,7 +49,7 @@ export default function SideNav() {
                 if (item.position === 'top') {
                   return (
                     <Fragment key={idx}>
-                      <div className="space-y-1">
+                      <div className="">
                         <SideNavItem
                           label={item.name}
                           icon={item.icon}
@@ -121,7 +121,7 @@ export const SideNavItem: React.FC<{
               : 'text-neutral-500 hover:bg-neutral-200 hover:bg-secondary/50 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-white'
           }`}
         >
-          <div className="font-base relative flex flex-row items-center space-x-2 rounded-md px-2 py-1.5 text-sm duration-100">
+          <div className="font-base relative flex flex-row items-center space-x-2 rounded-md px-2 py-2 text-sm duration-100">
             {icon}
             <span>{label}</span>
           </div>
@@ -134,7 +134,7 @@ export const SideNavItem: React.FC<{
                 href={path}
                 className={`relative flex h-full items-center whitespace-nowrap rounded-md ${
                   active
-                    ? 'font-base text-sm text-neutral-700 hover:bg-neutral-200 hover:bg-secondary/50 dark:text-white'
+                    ? 'font-base bg-primary/70 text-sm text-neutral-700 hover:bg-neutral-200 hover:bg-secondary/50 dark:text-white'
                     : 'text-neutral-500 hover:bg-neutral-200 hover:bg-secondary/50 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-white'
                 }`}
               >
