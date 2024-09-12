@@ -1,6 +1,5 @@
 import Parser from 'rss-parser';
 import Config from '@/public/feeds.json';
-import ogs from 'open-graph-scraper';
 
 interface Enclosure {
   url: string;
@@ -56,21 +55,6 @@ interface Output {
     keywords?: string[];
   };
 }
-
-/**
- * Returns the image metadata from a url
- *
- * @param url - the url to extract the image from
- * @return the url of the image from the metadata
- */
-export const extractImageURL = async (url: string) => {
-  const { result } = await ogs({ url });
-  let urls = result.ogImage;
-  if (!urls || urls.length === 0) {
-    return null;
-  }
-  return urls[0].url;
-};
 
 /**
  * Returns a single feed from a rss feed url

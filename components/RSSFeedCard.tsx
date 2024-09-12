@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Card,
   CardContent,
@@ -7,7 +9,8 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { extractImageURL } from '@/lib/rss';
+import useSWR from 'swr';
+
 export type RSSFeedCardProps = {
   title: string;
   description: string;
@@ -17,9 +20,17 @@ export type RSSFeedCardProps = {
   guid: string;
   tags: string[];
 };
-export const RSSFeedCard = async (props: RSSFeedCardProps) => {
-  const imageUrl = await extractImageURL(props.url);
+
+const fetchImage = async (url: string) => {
+  const response = await fetch(`/api/rss/fetchimage?url=${encodeURIComponent(url)}`);
+  const data = await response.json();
+  return data.imageUrl;
+};
+
+export const RSSFeedCard = (props: RSSFeedCardProps) => {
+  const { data: imageUrl, error } = useSWR(props.url, fetchImage);
   const date = new Date(props.isoDate);
+
   return (
     <Card className="h-[26rem] border-secondary/30 bg-secondary/15">
       <CardHeader className="py-4 pt-5">
@@ -33,25 +44,22 @@ export const RSSFeedCard = async (props: RSSFeedCardProps) => {
         <CardDescription className="mb-2 mt-3">{props.description}</CardDescription>
         {props.tags.length > 0 && (
           <div className="mb-5 flex h-12 flex-wrap items-start gap-2">
-            {props.tags.map((tag, index) => (
-              <div key={index} className="flex items-center">
-                <Badge variant="outline">{tag}</Badge>
-              </div>
+            {props.tags.map((tag) => (
+              <Badge key={tag}>{tag}</Badge>
             ))}
           </div>
         )}
-        <div className="flex h-[10rem] justify-start">
-          {imageUrl ? (
-            <img className="rounded-lg" src={imageUrl} alt={props.title} />
-          ) : (
-            <div className="h-full w-full items-center justify-center bg-gray-200">
-              <span>No Image Available</span>
-            </div>
-          )}
-        </div>
+        {error ? (
+          <p>Error loading image</p>
+        ) : !imageUrl ? (
+          <p>Loading...</p>
+        ) : (
+          <img src={imageUrl} alt={props.title} />
+        )}
+        <p>{props.content}</p>
       </CardContent>
       <CardFooter>
-        <p className="text-xs">{date.toDateString()}</p>
+        <Badge>{date.toLocaleDateString()}</Badge>
       </CardFooter>
     </Card>
   );
