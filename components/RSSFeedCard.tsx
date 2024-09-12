@@ -28,7 +28,11 @@ const fetchImage = async (url: string) => {
 };
 
 export const RSSFeedCard = (props: RSSFeedCardProps) => {
-  const { data: imageUrl, error } = useSWR(props.url, fetchImage);
+  const { data: imageUrl, error } = useSWR(props.url, fetchImage, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
   const date = new Date(props.isoDate);
 
   return (
