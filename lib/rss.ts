@@ -18,6 +18,12 @@ interface Feed {
   [key: string]: any;
 }
 
+/**
+ * Returns the image metadata from a url
+ *
+ * @param url - the url to extract the image from
+ * @return the url of the image from the metadata
+ */
 export const extractImageURL = async (url: string) => {
   const { result } = await ogs({ url });
   let urls = result.ogImage;
@@ -45,10 +51,10 @@ export const fetchFeed = async (url: string) => {
  * @param urls - a list of the urls to fetch the data from
  * @returns a condensed list of the feeds identical
  */
-export fetchMultipleFeeds = async (urls:string[]) => {
+export const fetchMultipleFeeds = async (urls:string[]) => {
   const parser = new Parser();
   let ret = [];
-  urls.forEach(element => {
+  urls.forEach(async element => {
     ret.concat(await parser.parse(element));
   });
   return ret;
