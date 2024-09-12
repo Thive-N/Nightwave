@@ -39,6 +39,9 @@ const LoginForm = () => {
       if (data.data?.error) {
         toast.error(data.data.error);
       }
+      if (data.data?.success) {
+        toast.success(data.data.success);
+      }
     },
     onExecute: () => {
       toast.loading('Logging in...');

@@ -5,7 +5,8 @@ import { actionClient } from '@/lib/safe-action';
 import { prisma } from '@/lib/prisma';
 import { AuthError } from 'next-auth';
 import { signIn } from '@/server/auth';
-
+import { generateVerificationToken } from '@/lib/tokens';
+import { sendVerificationEmail } from '@/lib/mail';
 export const loginUser = actionClient
   .schema(LoginSchema)
   .action(async ({ parsedInput: { email, password } }) => {
@@ -18,8 +19,14 @@ export const loginUser = actionClient
       });
 
       // If the user doesn't exist, return an error
-      if (!user) {
+      if (!user || !user.email || !user.password) {
         return { error: "A user with this email doesn't exist" };
+      }
+
+      if (!user.emailVerified) {
+        const verificationToken = await generateVerificationToken(user.email);
+        await sendVerificationEmail(email, verificationToken.token);
+        return { success: 'Confirmation email sent!' };
       }
 
       // Try and sign in the user with the provided credentials

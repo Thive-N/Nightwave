@@ -42,7 +42,6 @@ const RegisterForm = () => {
       }
       if (data.data?.success) {
         toast.success(data.data.success);
-        router.push('/login');
       }
     },
   });

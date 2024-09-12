@@ -4,7 +4,7 @@ import Config from '@/public/feeds.json';
 
 export default async function Page() {
   let feedurl = 'https://hackernoon.com/tagged/frontend/feed';
-  console.log(feedurl);
+  //console.log(feedurl);
   let rss = await fetchFeed(feedurl);
 
   return (

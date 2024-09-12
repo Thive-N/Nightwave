@@ -4,6 +4,9 @@ import { actionClient } from '@/lib/safe-action';
 import { RegisterSchema } from '@/types/register-schema';
 import bcrypt from 'bcrypt';
 import { prisma } from '@/lib/prisma';
+import { generateVerificationToken } from '@/lib/tokens';
+import { sendVerificationEmail } from '@/lib/mail';
+import { send } from 'process';
 
 export const registerUser = actionClient
   .schema(RegisterSchema)
@@ -16,7 +19,12 @@ export const registerUser = actionClient
     });
 
     if (existingUser) {
-      return { error: 'A user with this email already exists' };
+      if (!existingUser.emailVerified) {
+        const verificationToken = await generateVerificationToken(email);
+        await sendVerificationEmail(email, verificationToken.token);
+        return { success: 'Confirmation email resent!' };
+      }
+      return { error: 'User already exists' };
     }
 
     // Create new user with these credentials
@@ -28,5 +36,9 @@ export const registerUser = actionClient
       },
     });
 
-    return { success: 'Account created successfully' };
+    // Generate verification token
+    const verificationToken = await generateVerificationToken(email);
+    await sendVerificationEmail(email, verificationToken.token);
+
+    return { success: 'Confirmation email sent!' };
   });

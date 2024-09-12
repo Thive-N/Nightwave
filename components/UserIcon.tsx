@@ -14,7 +14,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { signOut } from 'next-auth/react';
 
 const UserIcon = ({ user }: Session) => {
-  console.log(user.image + '<-----------');
   if (user) {
     return (
       <DropdownMenu>
