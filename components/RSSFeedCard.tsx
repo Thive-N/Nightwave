@@ -41,7 +41,6 @@ export const RSSFeedCard = (props: RSSFeedCardProps) => {
         </div>
       </CardHeader>
       <CardContent>
-        <CardDescription className="mb-2 mt-3">{props.description}</CardDescription>
         {props.tags.length > 0 && (
           <div className="mb-5 flex h-12 flex-wrap items-start gap-2">
             {props.tags.map((tag) => (
@@ -56,7 +55,6 @@ export const RSSFeedCard = (props: RSSFeedCardProps) => {
         ) : (
           <img src={imageUrl} alt={props.title} />
         )}
-        <p>{props.content}</p>
       </CardContent>
       <CardFooter>
         <Badge>{date.toLocaleDateString()}</Badge>
