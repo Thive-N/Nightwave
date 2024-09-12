@@ -33,7 +33,6 @@ export const extractImageURL = async (url: string) => {
   return urls[0].url;
 };
 
-
 /**
  * Returns a single feed from a rss feed url
  *
@@ -51,11 +50,11 @@ export const fetchFeed = async (url: string) => {
  * @param urls - a list of the urls to fetch the data from
  * @returns a condensed list of the feeds identical
  */
-export const fetchMultipleFeeds = async (urls:string[]) => {
+export const fetchMultipleFeeds = async (urls: string[]) => {
   const parser = new Parser();
-  let ret = [];
-  urls.forEach(async element => {
-    ret.concat(await parser.parse(element));
+  let ret: any[] = [];
+  urls.forEach(async (element) => {
+    ret.concat(await parser.parseURL(element));
   });
   return ret;
-}
+};
