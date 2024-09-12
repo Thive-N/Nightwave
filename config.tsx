@@ -33,7 +33,7 @@ export const NavItems = () => {
     },
     {
       name: 'Settings',
-      href: '/dashboard/settings',
+      href: '/settings',
       icon: <Settings size={20} />,
       active: isNavItemActive(pathname, '/settings'),
       position: 'bottom',
