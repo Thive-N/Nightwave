@@ -1,21 +1,60 @@
 import Parser from 'rss-parser';
 import Config from '@/public/feeds.json';
 import ogs from 'open-graph-scraper';
-interface Feeds {
-  feed: Feed[];
+
+interface Enclosure {
+  url: string;
+  length?: number;
+  type?: string;
 }
 
-interface Feed {
-  title: string;
-  link: string;
-  pubdate: string;
-  content: string;
-  contentSnippet: string;
-  guid: string;
-  isoDate: string;
-  //
+interface Item {
+  link?: string;
+  guid?: string;
+  title?: string;
+  pubDate?: string;
+  creator?: string;
+  summary?: string;
+  content?: string;
+  isoDate?: string;
   categories?: string[];
-  [key: string]: any;
+  contentSnippet?: string;
+  enclosure?: Enclosure;
+}
+
+interface PaginationLinks {
+  self?: string;
+  first?: string;
+  next?: string;
+  last?: string;
+  prev?: string;
+}
+
+interface Output {
+  image?: {
+    link?: string;
+    url: string;
+    title?: string;
+  };
+  paginationLinks?: PaginationLinks;
+  link?: string;
+  title?: string;
+  items: Item[];
+  feedUrl?: string;
+  description?: string;
+  itunes?: {
+    [key: string]: any;
+    image?: string;
+    owner?: {
+      name?: string;
+      email?: string;
+    };
+    author?: string;
+    summary?: string;
+    explicit?: string;
+    categories?: string[];
+    keywords?: string[];
+  };
 }
 
 /**
@@ -39,9 +78,9 @@ export const extractImageURL = async (url: string) => {
  * @param url - the url to fetch the data from
  * @returns the feed
  */
-export const fetchFeed = async (url: string) => {
+export const fetchFeed = async (url: string): Promise<Item[]> => {
   const parser = new Parser();
-  return await parser.parseURL(url);
+  return (await parser.parseURL(url)).items;
 };
 
 /**
@@ -50,11 +89,24 @@ export const fetchFeed = async (url: string) => {
  * @param urls - a list of the urls to fetch the data from
  * @returns a condensed list of the feeds identical
  */
-export const fetchMultipleFeeds = async (urls: string[]) => {
+export const fetchMultipleFeeds = async (urls: string[]): Promise<Item[]> => {
   const parser = new Parser();
-  let ret: any[] = [];
-  urls.forEach(async (element) => {
-    ret.concat(await parser.parseURL(element));
+  let items: any[] = [];
+  for (let url of urls) {
+    let feed = await parser.parseURL(url);
+    items = items.concat(feed.items);
+  }
+  return items;
+};
+
+/**
+ * Returns a list of all feeds sorted by date
+ *
+ * @param urls - a list of the urls to fetch the data from
+ * @returns a list of the feeds sorted by date
+ */
+export const sortFeedsByDate = async (items: Item[]): Promise<Item[]> => {
+  return items.sort((a, b) => {
+    return new Date(b.isoDate ?? '').getTime() - new Date(a.isoDate ?? '').getTime();
   });
-  return ret;
 };

@@ -1,16 +1,20 @@
 import { RSSFeedCard } from '@/components/RSSFeedCard';
-import { fetchFeed } from '@/lib/rss';
+import { fetchMultipleFeeds, sortFeedsByDate } from '@/lib/rss';
 import Config from '@/public/feeds.json';
 
 export default async function Page() {
-  let feedurl = 'https://hackernoon.com/tagged/frontend/feed';
+  let feedurls = [
+    'https://hackernoon.com/tagged/frontend/feed',
+    'https://www.smashingmagazine.com/feed/',
+  ];
   //console.log(feedurl);
-  let rss = await fetchFeed(feedurl);
+  let rss = await fetchMultipleFeeds(feedurls);
+  rss = await sortFeedsByDate(rss);
 
   return (
     <div className="h-full w-full gap-4">
       <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
-        {rss.items.map((item, index) => (
+        {rss.map((item, index) => (
           <RSSFeedCard
             key={index}
             title={item.title ?? ''}
