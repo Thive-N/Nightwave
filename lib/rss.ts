@@ -110,3 +110,7 @@ export const sortFeedsByDate = async (items: Item[]): Promise<Item[]> => {
     return new Date(b.isoDate ?? '').getTime() - new Date(a.isoDate ?? '').getTime();
   });
 };
+
+export const randomizeFeeds = async (items: Item[], flt: number = 0.5): Promise<Item[]> => {
+  return items.sort(() => Math.random() - flt);
+};

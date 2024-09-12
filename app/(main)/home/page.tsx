@@ -1,5 +1,5 @@
 import { RSSFeedCard } from '@/components/RSSFeedCard';
-import { fetchMultipleFeeds, sortFeedsByDate } from '@/lib/rss';
+import { fetchMultipleFeeds, randomizeFeeds, sortFeedsByDate } from '@/lib/rss';
 import Config from '@/public/feeds.json';
 
 export default async function Page() {
@@ -9,7 +9,7 @@ export default async function Page() {
   ];
   //console.log(feedurl);
   let rss = await fetchMultipleFeeds(feedurls);
-  rss = await sortFeedsByDate(rss);
+  rss = await randomizeFeeds(rss);
 
   return (
     <div className="h-full w-full gap-4">
