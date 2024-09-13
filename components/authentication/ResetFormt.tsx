@@ -40,7 +40,7 @@ const ResetForm = () => {
       }
     },
     onExecute: () => {
-      toast.loading('Logging in...');
+      toast.loading('Sending...');
     },
     onSettled: () => {
       toast.dismiss();
