@@ -20,7 +20,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { UploadButton } from '@/app/api/uploadthing/upload';
-import { error } from 'console';
+import { Switch } from '@/components/ui/switch';
 
 type SettingForm = {
   session: Session;
@@ -37,6 +37,7 @@ function SettingsCard(session: SettingForm) {
       newPassword: undefined,
       email: session.session.user?.email || undefined,
       image: session.session.user?.image || undefined,
+      isTwoFactorEnabled: session.session.user?.isTwoFactorEnabled || false,
     },
   });
   return (
@@ -52,11 +53,13 @@ function SettingsCard(session: SettingForm) {
             name="image"
             render={({ field }) => (
               <FormItem>
-                <div className="flex flex-col gap-5">
+                <div>
                   <FormLabel>Avatar</FormLabel>
                   <div>
                     {!form.getValues('image') && (
-                      <div>{session.session.user?.name?.charAt(0).toUpperCase()}</div>
+                      <div className="mt-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#1F2937]">
+                        {session.session.user?.name?.charAt(0).toUpperCase()}
+                      </div>
                     )}
                     {form.getValues('image') && (
                       <Image
@@ -64,14 +67,14 @@ function SettingsCard(session: SettingForm) {
                         alt="Profile Picture"
                         width={50}
                         height={50}
-                        className="h-12 w-12 rounded-full"
+                        className="mt-3 h-12 w-12 rounded-full"
                       />
                     )}
                   </div>
-                  <FormControl className="flex items-start justify-start">
+                  <FormControl className="flex items-start">
                     <UploadButton
                       endpoint="imageUploader"
-                      className="ut-button:bg-primary/60 hover:ut-button:bg-primary/70 ut-uploading:ut-button-bg-red-500 ut-button:ring-primary"
+                      className="ut-uploading:ut-button-bg-red-500 mt-5 ut-button:bg-primary/60 ut-button:ring-primary hover:ut-button:bg-primary/70"
                       onUploadBegin={() => {
                         setLoadingImage(true);
                       }}
@@ -93,7 +96,7 @@ function SettingsCard(session: SettingForm) {
                         },
                       }}
                       appearance={{
-                        button({ ready, isUploading }) {
+                        button() {
                           return {
                             fontSize: '0.9rem',
                           };
@@ -102,62 +105,85 @@ function SettingsCard(session: SettingForm) {
                     />
                   </FormControl>
                   <FormMessage />
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem className="mt-5">
+                        <FormLabel>Name </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="w-80 lg:w-96"
+                            type="text"
+                            placeholder="John Doe"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription>This is your public display name.</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem className="mt-4">
+                        <FormLabel>Current Password</FormLabel>
+                        <FormControl>
+                          <Input
+                            className="w-80 lg:w-96"
+                            type="password"
+                            placeholder="********"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />{' '}
+                  <FormField
+                    control={form.control}
+                    name="newPassword"
+                    render={({ field }) => (
+                      <FormItem className="mt-4">
+                        <FormLabel>New Password</FormLabel>
+                        <FormControl>
+                          <Input
+                            className="w-80 lg:w-96"
+                            type="password"
+                            placeholder="********"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="isTwoFactorEnabled"
+                    render={({ field }) => (
+                      <FormItem className="mt-4 flex items-center gap-4">
+                        <FormLabel>Two-factor Authentication </FormLabel>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            disabled={
+                              loadingImage || session.session.user.isTwoFactorEnabled === false
+                            }
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem className="mt-5">
-                <FormLabel>Name </FormLabel>
-                <FormControl>
-                  <Input className="w-80 lg:w-96" type="text" placeholder="John Doe" {...field} />
-                </FormControl>
-                <FormDescription>This is your public display name.</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem className="mt-4">
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input
-                    className="w-80 lg:w-96"
-                    type="password"
-                    placeholder="********"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="newPassword"
-            render={({ field }) => (
-              <FormItem className="mt-4">
-                <FormLabel>New Password </FormLabel>
-                <FormControl>
-                  <Input
-                    className="w-80 lg:w-96"
-                    type="newPassword"
-                    placeholder="********"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
         </Form>
-        <Button disabled={loadingImage} className="mt-8 bg-primary/60 hover:bg-primary/70">
+        <Button disabled={loadingImage} className="mt-6 bg-primary/60 hover:bg-primary/70">
           Update Settings
         </Button>
       </CardContent>

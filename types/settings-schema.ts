@@ -11,6 +11,7 @@ export const SettingsSchema = z
     newPassword: z.optional(
       z.string().min(8, { message: 'Password must be at least 8 characters long' }),
     ),
+    isTwoFactorEnabled: z.optional(z.boolean()),
   })
   .refine(
     (data) => {
