@@ -46,18 +46,23 @@ export const RSSFeedCard = (props: RSSFeedCardProps) => {
       </CardHeader>
 
       <CardContent>
-        <CardDescription className="mb-2 mt-3">{props.description}</CardDescription>
-        <div className="mb-5 flex h-12 flex-wrap items-start gap-2">
-          {props.tags.map((tag, index) => (
-            <div key={index} className="flex items-center">
-              <Badge variant="outline">{tag}</Badge>
-            </div>
-          ))}
+        <div className="h-8">
+          <CardDescription className="mb-2 mt-3 overflow-hidden">
+            {props.description}
+          </CardDescription>
         </div>
-
-        <div className="flex h-[10rem] justify-start">
+        <div className="h-12">
+          <div className="mb-5 flex h-12 gap-2 overflow-x-auto whitespace-nowrap">
+            {props.tags.map((tag, index) => (
+              <div key={index} className="flex items-center">
+                <Badge variant="outline">{tag}</Badge>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flex h-[10rem] w-full">
           {imageUrl ? (
-            <img className="rounded-lg" src={imageUrl} alt={props.title} />
+            <img className="rounded-lg object-contain" src={imageUrl} alt={props.title} />
           ) : (
             <div className="h-full w-full items-center justify-center bg-gray-200">
               <span>Loading Image</span>

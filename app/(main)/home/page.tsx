@@ -8,7 +8,7 @@ export default async function Page() {
   ];
   //console.log(feedurl);
   let rss = await fetchMultipleFeeds(feedurls);
-  rss = await randomizeFeeds(rss);
+  rss = await sortFeedsByDate(rss);
 
   return (
     <div className="h-full w-full gap-4">
