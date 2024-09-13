@@ -29,31 +29,15 @@ interface PaginationLinks {
   prev?: string;
 }
 
-interface Output {
-  image?: {
-    link?: string;
-    url: string;
-    title?: string;
-  };
-  paginationLinks?: PaginationLinks;
-  link?: string;
-  title?: string;
-  items: Item[];
-  feedUrl?: string;
-  description?: string;
-  itunes?: {
-    [key: string]: any;
-    image?: string;
-    owner?: {
-      name?: string;
-      email?: string;
-    };
-    author?: string;
-    summary?: string;
-    explicit?: string;
-    categories?: string[];
-    keywords?: string[];
-  };
+interface CroppedOutput {
+  link: string;
+  title: string;
+  feedUrl: string;
+  description: string;
+  author: string;
+  summary: string;
+  categories: string[];
+  keywords: string[];
 }
 
 /**
@@ -97,4 +81,19 @@ export const sortFeedsByDate = async (items: Item[]): Promise<Item[]> => {
 
 export const randomizeFeeds = async (items: Item[], flt: number = 0.5): Promise<Item[]> => {
   return items.sort(() => Math.random() - flt);
+};
+
+export const fetchFeedMetadata = async (url: string): Promise<CroppedOutput> => {
+  const parser = new Parser();
+  const feed = await parser.parseURL(url);
+  return {
+    link: feed.link ?? '',
+    title: feed.title ?? '',
+    feedUrl: feed.feedUrl ?? '',
+    description: feed.description ?? '',
+    author: feed.author ?? '',
+    summary: feed.summary ?? '',
+    categories: feed.categories ?? '',
+    keywords: feed.categories ?? '',
+  };
 };
