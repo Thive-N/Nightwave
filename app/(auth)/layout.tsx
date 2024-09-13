@@ -9,7 +9,7 @@ export default async function RootLayout({
   const session = await auth();
   const user = session?.user;
   if (user) {
-    redirect('/register');
+    redirect('/login');
   }
   return (
     <div>

@@ -1,4 +1,4 @@
-import ResetForm from '@/components/authentication/ResetFormt';
+import ResetForm from '@/components/authentication/ResetForm';
 import React from 'react';
 
 const page = () => {

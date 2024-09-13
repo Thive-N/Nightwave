@@ -14,33 +14,40 @@ import {
   FormControl,
   FormMessage,
 } from '@/components/ui/form';
-import { ResetSchema } from '@/types/reset-schema';
+import { useSearchParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { resetPassword } from '@/server/actions/reset';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-const ResetForm = () => {
-  // Use the useForm hook to create a form with the ResetSchema
-  const form = useForm<z.infer<typeof ResetSchema>>({
-    resolver: zodResolver(ResetSchema),
+import { NewPasswordSchema } from '@/types/new-password-schema';
+import { NewPassword } from '@/server/actions/new-password';
+const NewPassWordForm = () => {
+  // Use the useForm hook to create a form with the NewPasswordSchema
+  const searchParams = useSearchParams();
+  const token = searchParams?.get('token');
+  const router = useRouter();
+  const form = useForm<z.infer<typeof NewPasswordSchema>>({
+    resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
-      email: '',
+      password: '',
+      token: token || undefined,
     },
   });
 
   // Use the useAction hook to handle form submission
-  const { execute, status } = useAction(resetPassword, {
+  const { execute, status } = useAction(NewPassword, {
     onSuccess: (data) => {
       if (data.data?.error) {
         toast.error(data.data.error);
       }
       if (data.data?.success) {
         toast.success(data.data.success);
+        router.push('/login');
       }
     },
     onExecute: () => {
-      toast.loading('Sending...');
+      toast.loading('Verifyings...');
     },
     onSettled: () => {
       toast.dismiss();
@@ -48,14 +55,14 @@ const ResetForm = () => {
   });
 
   // Defining the onSubmit function to execute the registerUser action
-  const onSubmit = (values: z.infer<typeof ResetSchema>) => {
+  const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
     execute(values);
   };
 
   return (
     <div className="mt-20 flex items-center justify-center">
       <AuthCard
-        cardTitle="Forgot your password?"
+        cardTitle="Reset your password"
         backButtonHref="/login"
         backButtonLabel="Back to login"
       >
@@ -64,17 +71,12 @@ const ResetForm = () => {
             <div>
               <FormField
                 control={form.control}
-                name="email"
+                name="password"
                 render={({ field }) => (
                   <FormItem className="mt-5">
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>New Password</FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        type="text"
-                        placeholder="johndoe@gmail.com"
-                        className="w-full"
-                      />
+                      <Input {...field} type="password" placeholder="********" className="w-full" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -86,7 +88,7 @@ const ResetForm = () => {
                 className="mt-5 items-start px-0"
                 asChild
               >
-                <Link href="/reset">Forgot your password?</Link>
+                <Link href="/login">Back to login</Link>
               </Button>
             </div>
             <Button
@@ -103,4 +105,4 @@ const ResetForm = () => {
   );
 };
 
-export default ResetForm;
+export default NewPassWordForm;
