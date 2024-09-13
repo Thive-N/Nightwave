@@ -12,13 +12,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: { strategy: 'jwt' },
   callbacks: {
     async jwt({ token, session }) {
-      if (!token) return token;
+      if (!token.sub) return token;
 
       const existingUser = await prisma.user.findFirst({
         where: {
           id: token.sub,
         },
       });
+      if (!existingUser) return token;
 
       const hasOAuthAccount = await prisma.account.findFirst({
         where: {
@@ -26,13 +27,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
       });
 
-      if (!existingUser) return token;
-
       token.isOAuth = !!hasOAuthAccount;
       token.email = existingUser.email;
       token.name = existingUser.name;
       token.picture = existingUser.image;
       token.role = existingUser.role;
+      token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 
       // console.log('jwt', token);
       return token;
@@ -50,6 +50,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.image = token.picture as string;
         session.user.role = token.role as string;
         session.user.isOAuth = token.isOAuth as boolean;
+        session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
       }
       // console.log('session', token, session);
       return session;

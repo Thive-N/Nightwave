@@ -3,13 +3,14 @@ import { getPasswordResetTokenByEmail } from '@/data/password-reset-token';
 import { v4 as uuid } from 'uuid';
 import { prisma } from '@/lib/prisma';
 import crypt from 'crypto';
-import exp from 'constants';
 
 export const generateVerificationToken = async (email: string) => {
+  // Generate a random token
   const token = uuid();
   const expires = new Date(new Date().getTime() + 3600 * 1000); // 1 hour
-  const existingToken = await getVerificationTokenByEmail(email);
 
+  // Find any existing verification tokens by the user's email and delete them
+  const existingToken = await getVerificationTokenByEmail(email);
   if (existingToken) {
     await prisma.verificationToken.delete({
       where: { id: existingToken.id },
@@ -30,6 +31,8 @@ export const generateVerificationToken = async (email: string) => {
 export const generatePasswordResetToken = async (email: string) => {
   const token = uuid();
   const expires = new Date(new Date().getTime() + 3600 * 1000); // 1 hour
+
+  // Find any existing password reset tokens by the user's email and delete them
   const existingToken = await getPasswordResetTokenByEmail(email);
   if (existingToken) {
     await prisma.passwordResetToken.delete({
@@ -52,7 +55,9 @@ export const generateTwoFactorToken = async (email: string) => {
   // Generate a random 6-digit token
   const token = crypt.randomInt(100_000, 999_999).toString();
   const expires = new Date(new Date().getTime() + 300_000); // 5 minutes
+  console.log('generation token', token);
 
+  // Find any existing two factor tokens by the user's email and delete them
   const existingToken = await prisma.twoFactorToken.findFirst({
     where: { email },
   });
@@ -70,4 +75,5 @@ export const generateTwoFactorToken = async (email: string) => {
       expires,
     },
   });
+  return twoFactorToken;
 };

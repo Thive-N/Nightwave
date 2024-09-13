@@ -1,6 +1,5 @@
 'use server';
 import { actionClient } from '@/lib/safe-action';
-import { prisma } from '@/lib/prisma';
 import { ResetSchema } from '@/types/reset-schema';
 import { getUserByEmail } from '@/data/user';
 import { sendPasswordResetEmail } from '@/lib/mail';

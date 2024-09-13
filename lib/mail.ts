@@ -25,6 +25,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
 };
 
 export const sendTwoFactorEmail = async (email: string, token: string) => {
+  console.log('email: token', token);
   await resend.emails.send({
     from: 'Acme <onboarding@resend.dev>',
     to: email,
