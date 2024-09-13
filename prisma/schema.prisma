@@ -13,20 +13,20 @@ enum Role {
 }
 
 model User {
-  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
-  email         String          @unique
+  email         String    @unique
   password      String?
   emailVerified DateTime?
   image         String?
-  role          String          @default("USER")
+  role          String    @default("USER")
   accounts      Account[]
   sessions      Session[]
-  // Optional for WebAuthn support
-  Authenticator Authenticator[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+  isTwoFactorEnabled      Boolean                  @default(false)
+  twoFactorAuthentication TwoFactorAuthentication?
 }
 
 model Account {
@@ -80,18 +80,19 @@ model PasswordResetToken {
   @@unique([email, token])
 }
 
-// Optional for WebAuthn support
-model Authenticator {
-  credentialID         String  @id @map("_id")
-  userId               String  @db.ObjectId
-  providerAccountId    String
-  credentialPublicKey  String
-  counter              Int
-  credentialDeviceType String
-  credentialBackedUp   Boolean
-  transports           String?
+model TwoFactorToken {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  email   String
+  token   String   @unique
+  expires DateTime
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([email, token])
+}
 
-  @@unique([userId, credentialID])
+model TwoFactorAuthentication {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
 }

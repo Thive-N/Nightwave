@@ -9,7 +9,7 @@ import { generateVerificationToken } from '@/lib/tokens';
 import { sendVerificationEmail } from '@/lib/mail';
 export const loginUser = actionClient
   .schema(LoginSchema)
-  .action(async ({ parsedInput: { email, password } }) => {
+  .action(async ({ parsedInput: { email, password, code } }) => {
     try {
       // Try and find a user in the database that matches the email
       const user = await prisma.user.findFirst({
@@ -27,6 +27,11 @@ export const loginUser = actionClient
         const verificationToken = await generateVerificationToken(user.email);
         await sendVerificationEmail(email, verificationToken.token);
         return { success: 'Confirmation email sent!' };
+      }
+
+      if (user.isTwoFactorEnabled && user.email) {
+        if (code) {
+        }
       }
 
       // Try and sign in the user with the provided credentials

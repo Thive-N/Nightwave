@@ -14,10 +14,9 @@ import {
   FormControl,
   FormMessage,
 } from '@/components/ui/form';
-import { useSearchParams } from 'next/navigation';
+import { redirect, useSearchParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { NewPasswordSchema } from '@/types/new-password-schema';
@@ -26,7 +25,6 @@ const NewPassWordForm = () => {
   // Use the useForm hook to create a form with the NewPasswordSchema
   const searchParams = useSearchParams();
   const token = searchParams?.get('token');
-  const router = useRouter();
   const form = useForm<z.infer<typeof NewPasswordSchema>>({
     resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
@@ -43,7 +41,7 @@ const NewPassWordForm = () => {
       }
       if (data.data?.success) {
         toast.success(data.data.success);
-        router.push('/login');
+        redirect('/login');
       }
     },
     onExecute: () => {
