@@ -59,6 +59,9 @@ export const loginUser = actionClient
           await sendTwoFactorEmail(twoFactorToken.email, twoFactorToken.token);
           return { twoFactor: 'Two factor code sent!' };
         }
+        if (user.subscriptions === null) {
+          user.subscriptions = [];
+        }
       }
 
       // Try and sign in the user with the provided credentials

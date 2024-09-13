@@ -27,6 +27,7 @@ model User {
   updatedAt               DateTime                 @updatedAt
   isTwoFactorEnabled      Boolean                  @default(false)
   twoFactorAuthentication TwoFactorAuthentication?
+  subscriptions           String[]
 }
 
 model Account {

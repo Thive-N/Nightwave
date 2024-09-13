@@ -1,12 +1,14 @@
 import { RSSFeedCard } from '@/components/RSSFeedCard';
 import { fetchMultipleFeeds, randomizeFeeds, sortFeedsByDate } from '@/lib/rss';
+import { auth } from '@/server/auth';
 
 export default async function Page() {
-  let feedurls = [
-    'https://hackernoon.com/tagged/frontend/feed',
-    'https://www.smashingmagazine.com/feed/',
-  ];
-  //console.log(feedurl);
+  const session = await auth();
+  if (!session) {
+    return null;
+  }
+  let feedurls = session.user.subscriptions;
+  console.log(feedurls);
   let rss = await fetchMultipleFeeds(feedurls);
   rss = await sortFeedsByDate(rss);
 

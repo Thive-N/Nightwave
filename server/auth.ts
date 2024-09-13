@@ -33,6 +33,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       token.picture = existingUser.image;
       token.role = existingUser.role;
       token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
+      token.subscriptions = existingUser.subscriptions;
 
       // console.log('jwt', token);
       return token;
@@ -51,6 +52,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.role = token.role as string;
         session.user.isOAuth = token.isOAuth as boolean;
         session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
+        session.user.subscriptions = token.subscriptions as string[];
       }
       // console.log('session', token, session);
       return session;
