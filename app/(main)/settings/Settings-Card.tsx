@@ -37,7 +37,6 @@ function SettingsCard(session: SettingForm) {
       name: session.session.user?.name || undefined,
       password: undefined,
       newPassword: undefined,
-      email: session.session.user?.email || undefined,
       image: session.session.user?.image || undefined,
       isTwoFactorEnabled: session.session.user?.isTwoFactorEnabled || false,
     },
@@ -158,6 +157,7 @@ function SettingsCard(session: SettingForm) {
                           <FormLabel>Current Password</FormLabel>
                           <FormControl>
                             <Input
+                              disabled={session.session.user.isOAuth}
                               className="w-80 lg:w-96"
                               type="password"
                               placeholder="********"
@@ -176,6 +176,7 @@ function SettingsCard(session: SettingForm) {
                           <FormLabel>New Password</FormLabel>
                           <FormControl>
                             <Input
+                              disabled={session.session.user.isOAuth}
                               className="w-80 lg:w-96"
                               type="password"
                               placeholder="********"
