@@ -113,3 +113,8 @@
   background: rgba(0,0,0,0.61); /* Some darker color when you click it */
   -webkit-border-radius: 100px;
 }
+
+[data-ut-element="button"][data-state="uploading"]::after {
+  background-color: hsl(var(--primary));
+  opacity: 0.6;
+}

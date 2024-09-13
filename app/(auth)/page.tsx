@@ -1,8 +1,8 @@
 import RegisterForm from '@/components/authentication/RegisterForm';
 import React from 'react';
 
-function Login() {
+function page() {
   return <RegisterForm />;
 }
 
-export default Login;
+export default page;

@@ -47,15 +47,14 @@ export const RSSFeedCard = (props: RSSFeedCardProps) => {
 
       <CardContent>
         <CardDescription className="mb-2 mt-3">{props.description}</CardDescription>
-        {props.tags.length > 0 && (
-          <div className="mb-5 flex h-12 flex-wrap items-start gap-2">
-            {props.tags.map((tag, index) => (
-              <div key={index} className="flex items-center">
-                <Badge variant="outline">{tag}</Badge>
-              </div>
-            ))}
-          </div>
-        )}
+        <div className="mb-5 flex h-12 flex-wrap items-start gap-2">
+          {props.tags.map((tag, index) => (
+            <div key={index} className="flex items-center">
+              <Badge variant="outline">{tag}</Badge>
+            </div>
+          ))}
+        </div>
+
         <div className="flex h-[10rem] justify-start">
           {imageUrl ? (
             <img className="rounded-lg" src={imageUrl} alt={props.title} />

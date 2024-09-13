@@ -1,6 +1,5 @@
 import { RSSFeedCard } from '@/components/RSSFeedCard';
 import { fetchMultipleFeeds, randomizeFeeds, sortFeedsByDate } from '@/lib/rss';
-import Config from '@/public/feeds.json';
 
 export default async function Page() {
   let feedurls = [

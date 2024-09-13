@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { Session } from 'next-auth';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,12 +20,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { UploadButton } from '@/app/api/uploadthing/upload';
+import { error } from 'console';
 
 type SettingForm = {
   session: Session;
 };
 
 function SettingsCard(session: SettingForm) {
+  const [loadingImage, setLoadingImage] = useState(false);
+
   const form = useForm<z.infer<typeof SettingsSchema>>({
     resolver: zodResolver(SettingsSchema),
     defaultValues: {
@@ -49,7 +52,7 @@ function SettingsCard(session: SettingForm) {
             name="image"
             render={({ field }) => (
               <FormItem>
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-5">
                   <FormLabel>Avatar</FormLabel>
                   <div>
                     {!form.getValues('image') && (
@@ -65,10 +68,39 @@ function SettingsCard(session: SettingForm) {
                       />
                     )}
                   </div>
-                  <FormControl>
-                    <UploadButton className="w-96 scale-75" endpoint="imageUploader" />
+                  <FormControl className="flex items-start justify-start">
+                    <UploadButton
+                      endpoint="imageUploader"
+                      className="ut-button:bg-primary/60 hover:ut-button:bg-primary/70 ut-uploading:ut-button-bg-red-500 ut-button:ring-primary/60"
+                      onUploadBegin={() => {
+                        setLoadingImage(true);
+                      }}
+                      onUploadError={(error) => {
+                        form.setError('image', { message: error.message });
+                        return;
+                      }}
+                      onClientUploadComplete={(res) => {
+                        form.setValue('image', res[0].url);
+                        setLoadingImage(false);
+                        return;
+                      }}
+                      content={{
+                        button({ ready }) {
+                          if (ready) {
+                            return 'Change Avatar';
+                          }
+                          return 'Uploading...';
+                        },
+                      }}
+                      appearance={{
+                        button({ ready, isUploading }) {
+                          return {
+                            fontSize: '0.9rem',
+                          };
+                        },
+                      }}
+                    />
                   </FormControl>
-                  <FormDescription>This is your public display name.</FormDescription>
                   <FormMessage />
                 </div>
               </FormItem>
@@ -78,7 +110,7 @@ function SettingsCard(session: SettingForm) {
             control={form.control}
             name="name"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="mt-5">
                 <FormLabel>Name </FormLabel>
                 <FormControl>
                   <Input className="w-80 lg:w-96" type="text" placeholder="John Doe" {...field} />
@@ -125,7 +157,9 @@ function SettingsCard(session: SettingForm) {
             )}
           />
         </Form>
-        <Button className="mt-8">Update Settings</Button>
+        <Button disabled={loadingImage} className="mt-8 bg-primary/60 hover:bg-primary/70">
+          Update Settings
+        </Button>
       </CardContent>
     </Card>
   );

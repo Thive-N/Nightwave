@@ -1,4 +1,5 @@
 // TODO: Add links to signin/login
+import { redirect } from 'next/navigation';
 export default async function Page() {
-  return <main>root page</main>;
+  redirect('/home');
 }
