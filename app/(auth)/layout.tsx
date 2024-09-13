@@ -6,6 +6,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+  const user = session?.user;
+  if (user) {
+    redirect('/register');
+  }
   return (
     <div>
       <Navbar />

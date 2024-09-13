@@ -14,27 +14,23 @@ import {
   FormControl,
   FormMessage,
 } from '@/components/ui/form';
-import { LoginSchema } from '@/types/login-schema';
+import { ResetSchema } from '@/types/reset-schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginUser } from '@/server/actions/login';
+import { resetPassword } from '@/server/actions/reset';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-const LoginForm = () => {
-  const router = useRouter();
-
-  // Use the useForm hook to create a form with the LoginSchema
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+const ResetForm = () => {
+  // Use the useForm hook to create a form with the ResetSchema
+  const form = useForm<z.infer<typeof ResetSchema>>({
+    resolver: zodResolver(ResetSchema),
     defaultValues: {
       email: '',
-      password: '',
     },
   });
 
   // Use the useAction hook to handle form submission
-  const { execute, status } = useAction(loginUser, {
+  const { execute, status } = useAction(resetPassword, {
     onSuccess: (data) => {
       if (data.data?.error) {
         toast.error(data.data.error);
@@ -52,17 +48,16 @@ const LoginForm = () => {
   });
 
   // Defining the onSubmit function to execute the registerUser action
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = (values: z.infer<typeof ResetSchema>) => {
     execute(values);
   };
 
   return (
     <div className="mt-20 flex items-center justify-center">
       <AuthCard
-        cardTitle="Log in to Nightwave"
-        backButtonHref="/register"
-        backButtonLabel="Don't have an account?"
-        showSocials
+        cardTitle="Forgot your password?"
+        backButtonHref="/login"
+        backButtonLabel="Back to login"
       >
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -85,25 +80,6 @@ const LoginForm = () => {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem className="mt-5">
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="password"
-                        autoComplete="current-password"
-                        placeholder="********"
-                        className="w-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <Button
                 variant={'link'}
                 disabled={status === 'executing'}
@@ -113,13 +89,12 @@ const LoginForm = () => {
                 <Link href="/reset">Forgot your password?</Link>
               </Button>
             </div>
-
             <Button
               className={cn('w-full', status === 'executing' ? 'animate-pulse' : '')}
               disabled={status === 'executing'}
               type="submit"
             >
-              Login
+              Reset
             </Button>
           </form>
         </Form>
@@ -128,4 +103,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default ResetForm;

@@ -6,7 +6,6 @@ import bcrypt from 'bcrypt';
 import { prisma } from '@/lib/prisma';
 import { generateVerificationToken } from '@/lib/tokens';
 import { sendVerificationEmail } from '@/lib/mail';
-import { send } from 'process';
 
 export const registerUser = actionClient
   .schema(RegisterSchema)

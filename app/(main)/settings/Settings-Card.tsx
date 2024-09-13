@@ -71,7 +71,7 @@ function SettingsCard(session: SettingForm) {
                   <FormControl className="flex items-start justify-start">
                     <UploadButton
                       endpoint="imageUploader"
-                      className="ut-button:bg-primary/60 hover:ut-button:bg-primary/70 ut-uploading:ut-button-bg-red-500 ut-button:ring-primary/60"
+                      className="ut-button:bg-primary/60 hover:ut-button:bg-primary/70 ut-uploading:ut-button-bg-red-500 ut-button:ring-primary"
                       onUploadBegin={() => {
                         setLoadingImage(true);
                       }}
