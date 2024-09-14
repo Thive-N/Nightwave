@@ -13,7 +13,7 @@ export default async function Page() {
   rss = await sortFeedsByDate(rss);
 
   return (
-    <div className="h-full w-full gap-4">
+    <div className="h-full w-full gap-4 overflow-auto">
       <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4">
         {rss.map((item, index) => (
           <RSSFeedCard

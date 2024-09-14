@@ -15,8 +15,7 @@ function Page() {
   }
 
   async function applyChanges() {
-    console.log(toggledfeeds);
-    const res = await fetch('/api/updateSubscriptions', {
+    const res = await fetch('/api/rss/updateSubscriptions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
