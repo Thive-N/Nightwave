@@ -29,17 +29,6 @@ interface PaginationLinks {
   prev?: string;
 }
 
-interface CroppedOutput {
-  link: string;
-  title: string;
-  feedUrl: string;
-  description: string;
-  author: string;
-  summary: string;
-  categories: string[];
-  keywords: string[];
-}
-
 /**
  * Returns a single feed from a rss feed url
  *
@@ -81,19 +70,4 @@ export const sortFeedsByDate = async (items: Item[]): Promise<Item[]> => {
 
 export const randomizeFeeds = async (items: Item[], flt: number = 0.5): Promise<Item[]> => {
   return items.sort(() => Math.random() - flt);
-};
-
-export const fetchFeedMetadata = async (url: string): Promise<CroppedOutput> => {
-  const parser = new Parser();
-  const feed = await parser.parseURL(url);
-  return {
-    link: feed.link ?? '',
-    title: feed.title ?? '',
-    feedUrl: feed.feedUrl ?? '',
-    description: feed.description ?? '',
-    author: feed.author ?? '',
-    summary: feed.summary ?? '',
-    categories: feed.categories ?? '',
-    keywords: feed.categories ?? '',
-  };
 };

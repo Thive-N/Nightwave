@@ -17,9 +17,9 @@ export default async function RootLayout({
       <Navbar />
       <div className="flex">
         <Sidebar />
-        <div className="w-full overflow-x-auto">
-          <div className="overflow-auto sm:h-[calc(99vh-80px)]">
-            <div className="relative mx-auto flex h-full w-full justify-center overflow-auto overflow-y-auto p-4">
+        <div className="w-full">
+          <div className="sm:h-[calc(99vh-80px)]">
+            <div className="relative mx-auto flex h-full w-full justify-center overflow-hidden p-4">
               {children}
             </div>
           </div>
