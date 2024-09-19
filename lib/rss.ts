@@ -1,5 +1,7 @@
 import Parser from 'rss-parser';
 import Config from '@/public/feeds.json';
+import { Session } from 'next-auth';
+import { PrismaClient } from '@prisma/client';
 
 interface Enclosure {
   url: string;
@@ -70,4 +72,15 @@ export const sortFeedsByDate = async (items: Item[]): Promise<Item[]> => {
 
 export const randomizeFeeds = async (items: Item[], flt: number = 0.5): Promise<Item[]> => {
   return items.sort(() => Math.random() - flt);
+};
+
+export const getUserFeeds = async (session: Session): Promise<string[]> => {
+  const prisma = new PrismaClient();
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+  });
+  if (!user) {
+    return [];
+  }
+  return user.subscriptions;
 };

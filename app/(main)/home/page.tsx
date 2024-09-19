@@ -1,14 +1,14 @@
 import { RSSFeedCard } from '@/components/RSSFeedCard';
-import { fetchMultipleFeeds, randomizeFeeds, sortFeedsByDate } from '@/lib/rss';
+import { fetchMultipleFeeds, randomizeFeeds, getUserFeeds, sortFeedsByDate } from '@/lib/rss';
 import { auth } from '@/server/auth';
+import { get } from 'http';
 
 export default async function Page() {
   const session = await auth();
   if (!session) {
     return null;
   }
-  let feedurls = session.user.subscriptions;
-  console.log(feedurls);
+  let feedurls = await getUserFeeds(session);
   let rss = await fetchMultipleFeeds(feedurls);
   rss = await sortFeedsByDate(rss);
 
