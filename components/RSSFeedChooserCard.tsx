@@ -31,6 +31,7 @@ const FormSchema = z.object({
 export type RSSFeedChooserCardProps = {
   url: string;
   toggleButtonFunction: (url: string) => void;
+  enabled: boolean;
 };
 
 async function getFeedMetadata(url: string) {
@@ -49,7 +50,7 @@ export function RSSFeedChooserCard(props: RSSFeedChooserCardProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      toggledon: false,
+      toggledon: props.enabled,
     },
   });
   if (error) {

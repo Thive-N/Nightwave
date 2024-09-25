@@ -11,8 +11,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (req.method === 'POST') {
     await POST(req, res, session);
-  } else {
-    res.status(405).json({ error: 'Method not allowed' });
+  }
+  if (req.method === 'GET') {
+    const subscriptions = await GET(req, res, session);
+    res.status(200).json({ data: subscriptions });
   }
 }
 
@@ -31,4 +33,15 @@ async function POST(req: NextApiRequest, res: NextApiResponse, session: Session)
     },
   });
   res.status(200).json({ message: 'Subscriptions updated successfully' });
+}
+
+async function GET(req: NextApiRequest, res: NextApiResponse, session: Session) {
+  const prisma = new PrismaClient();
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+  });
+  if (!user) {
+    return [];
+  }
+  return user.subscriptions;
 }
