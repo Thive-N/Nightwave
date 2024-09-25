@@ -84,3 +84,10 @@ export const getUserFeeds = async (session: Session): Promise<string[]> => {
   }
   return user.subscriptions;
 };
+
+export const getRandomFeeds = async (count: number = 5): Promise<string[]> => {
+  return Config.feeds
+    .sort(() => Math.random() - 0.5)
+    .slice(0, count)
+    .map((feed) => feed.url);
+};
