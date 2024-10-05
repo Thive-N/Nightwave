@@ -52,6 +52,20 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
+model RSSFeed {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  link           String?
+  guid           String?
+  title          String?
+  pubDate        DateTime?
+  creator        String?
+  summary        String?
+  content        String?
+  isoDate        DateTime?
+  categories     String[]
+  contentSnippet String?
+}
+
 model Session {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   sessionToken String   @unique
