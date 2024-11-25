@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import useSWR from 'swr';
+import placeholder from '@/public/placeholder.jpg';
 
 export type RSSFeedCardProps = {
   title: string;
@@ -34,7 +35,6 @@ export const RSSFeedCard = (props: RSSFeedCardProps) => {
     revalidateOnReconnect: false,
   });
   const date = new Date(props.isoDate);
-
   return (
     <Card className="h-[26rem] border-secondary/30 bg-secondary/15">
       <CardHeader className="py-4 pt-5">
@@ -52,7 +52,7 @@ export const RSSFeedCard = (props: RSSFeedCardProps) => {
           </CardDescription>
         </div>
         <div className="h-12">
-          <div className="mb-5 flex h-12 gap-2 overflow-x-auto whitespace-nowrap">
+          <div className="flex h-12 gap-2 overflow-x-auto whitespace-nowrap pb-5">
             {props.tags.map((tag, index) => (
               <div key={index} className="flex items-center">
                 <Badge variant="outline">{tag}</Badge>
@@ -64,9 +64,7 @@ export const RSSFeedCard = (props: RSSFeedCardProps) => {
           {imageUrl ? (
             <img className="rounded-lg object-contain" src={imageUrl} alt={props.title} />
           ) : (
-            <div className="h-full w-full items-center justify-center bg-gray-200">
-              <span>Loading Image</span>
-            </div>
+            <img className="rounded-lg object-contain" src="/placeholder.jpg" />
           )}
         </div>
       </CardContent>

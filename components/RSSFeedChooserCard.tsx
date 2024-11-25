@@ -58,7 +58,7 @@ export function RSSFeedChooserCard(props: RSSFeedChooserCardProps) {
   }
   if (!feed) return <div>Loading...</div>;
   return (
-    <Card className="h-[26rem] border-secondary/30 bg-secondary/15">
+    <Card className="h-[22rem] border-secondary/30 bg-secondary/15">
       <CardHeader className="py-4 pt-5">
         <div className="flex h-16 items-end">
           <CardTitle className="line-clamp-2 text-[22px]">
@@ -67,15 +67,15 @@ export function RSSFeedChooserCard(props: RSSFeedChooserCardProps) {
         </div>
       </CardHeader>
 
-      <CardContent>
-        <div className="h-8">
+      <CardContent className="">
+        <div className="flex h-[16rem] flex-col justify-between">
           <CardDescription className="mb-2 mt-3 overflow-hidden">
             {feed.description}
           </CardDescription>
 
           <Form {...form}>
             <form className="w-full space-y-6">
-              <div className="space-y-4">
+              <div className="space-y-4 pb-8">
                 <FormField
                   control={form.control}
                   name="toggledon"

@@ -2,7 +2,7 @@ import Parser from 'rss-parser';
 import Config from '@/public/feeds.json';
 import { Session } from 'next-auth';
 import { PrismaClient } from '@prisma/client';
-import { prisma } from '@/lib/prisma';
+
 interface Enclosure {
   url: string;
   length?: number;
@@ -50,54 +50,15 @@ export const fetchFeed = async (url: string): Promise<Item[]> => {
  */
 export const fetchMultipleFeeds = async (urls: string[]): Promise<Item[]> => {
   const parser = new Parser();
-
-  // Fetch all items from the feeds
-  const feeds = await Promise.all(urls.map((url) => parser.parseURL(url)));
-  let items = feeds.flatMap((feed) => feed.items);
-
-  // Get the GUIDs of these items
-  const guids = new Set(items.map((item) => item.guid));
-
-  // Query the database to find which of these GUIDs already exist
-  const existingFeeds = await prisma.rSSFeed.findMany({
-    where: {
-      guid: {
-        in: Array.from(guids).filter((guid): guid is string => guid !== undefined),
-      },
-    },
-    select: {
-      guid: true,
-    },
-  });
-
-  const existingGuids = new Set(existingFeeds.map((feed) => feed.guid));
-  // If the lengths are the same, then all items already exist in the database
-  if (existingGuids.size === guids.size) {
-    return items;
+  let items: any[] = [];
+  for (let url of urls) {
+    let feed = await parser.parseURL(url);
+    items = items.concat(feed.items);
   }
-  // Filter out the existing items
-  const uniqueItems = items.filter((item) => !existingGuids.has(item.guid ?? null));
-
-  // Insert the unique items into the database in a single batch operation
-  if (uniqueItems.length > 0) {
-    await prisma.rSSFeed.createMany({
-      data: uniqueItems.map((item) => ({
-        link: item.link,
-        guid: item.guid,
-        title: item.title,
-        pubDate: item.pubDate ? new Date(item.pubDate) : null,
-        creator: item.creator,
-        summary: item.summary,
-        content: item.content,
-        isoDate: item.isoDate ? new Date(item.isoDate) : null,
-        categories: item.categories,
-        contentSnippet: item.contentSnippet,
-      })),
-    });
-  }
-
+  console.log(items);
   return items;
 };
+
 /**
  * Returns a list of all feeds sorted by date
  *
@@ -122,6 +83,7 @@ export const getUserFeeds = async (session: Session): Promise<string[]> => {
   if (!user) {
     return [];
   }
+  console.log(user.subscriptions);
   return user.subscriptions;
 };
 

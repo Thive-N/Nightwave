@@ -1,7 +1,6 @@
 import { RSSFeedCard } from '@/components/RSSFeedCard';
 import { fetchMultipleFeeds, randomizeFeeds, getUserFeeds, sortFeedsByDate } from '@/lib/rss';
 import { auth } from '@/server/auth';
-import { get } from 'http';
 
 export default async function Page() {
   const session = await auth();
@@ -11,6 +10,7 @@ export default async function Page() {
   let feedurls = await getUserFeeds(session);
   let rss = await fetchMultipleFeeds(feedurls);
   rss = await sortFeedsByDate(rss);
+  console.log(rss);
 
   return (
     <div className="h-full w-full gap-4 overflow-auto">
