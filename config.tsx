@@ -3,7 +3,7 @@ import { usePathname } from 'next/navigation';
 import { Globe, Compass, Settings, User } from 'lucide-react';
 
 export const NavItems = () => {
-  const pathname = usePathname();
+  const pathname = usePathname() || '/';
 
   function isNavItemActive(pathname: string, nav: string) {
     return pathname.includes(nav);

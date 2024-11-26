@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { AuthCard } from './Auth-Card';
 import { toast } from 'sonner';
 const VerificationForm = () => {
-  const token = useSearchParams().get('token');
+  const token = useSearchParams()?.get('token');
   const router = useRouter();
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
