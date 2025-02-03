@@ -1,6 +1,7 @@
-import React from 'react';
-import { Input } from '@/components/ui/input';
+import React, { useState } from 'react';
+import { MenuIcon } from 'lucide-react';
 import UserIcon from '@/components/UserIcon';
+import MobileSidebar from './MobileSidebar';
 import { auth } from '@/server/auth';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -10,8 +11,11 @@ export default async function Navbar() {
   return (
     <nav className="flex h-20 items-center justify-between border-b border-t px-6">
       <ul className="flex w-full items-center justify-between">
-        <li className="text-2xl font-bold text-primary/90 lg:text-3xl">Nightwave</li>
-        <li></li>
+        <li className="flex items-center gap-4 text-2xl font-bold text-primary/90 lg:text-3xl">
+          <MobileSidebar />
+          <Link href="/home">Nightwave</Link>
+        </li>
+
         {!session ? (
           <li>
             <Button>

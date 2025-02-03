@@ -1,6 +1,6 @@
 import { usePathname } from 'next/navigation';
 
-import { Globe, Compass, Settings, User, Bookmark } from 'lucide-react';
+import { Compass, Settings, User, Bookmark } from 'lucide-react';
 
 export const NavItems = () => {
   const pathname = usePathname() || '/';
