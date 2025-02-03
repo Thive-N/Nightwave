@@ -32,6 +32,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+
+import Skeleton from '@mui/material/Skeleton';
+
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
@@ -70,7 +73,20 @@ export function RSSFeedChooserCard(props: RSSFeedChooserCardProps) {
   if (error) {
     return <div>Error loading feed</div>;
   }
-  if (!feed) return <div>Loading...</div>;
+  if (!feed)
+    return (
+      <div
+        role="status"
+        className="h-56 max-w-sm animate-pulse rounded-sm border border-gray-200 p-4 shadow-sm dark:border-gray-700 md:p-6"
+      >
+        <div className="mb-4 h-16 w-full rounded bg-gray-200 dark:bg-gray-600"></div>
+        <div className="mb-2.5 h-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+        <div className="mb-2.5 h-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+        <div className="h-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+        <div className="mt-8 h-5 w-1/5 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+        <span className="sr-only">Loading...</span>
+      </div>
+    );
   return (
     <div className="flex flex-col">
       <Form {...form}>
