@@ -1,6 +1,6 @@
 import { usePathname } from 'next/navigation';
 
-import { Globe, Compass, Settings, User } from 'lucide-react';
+import { Globe, Compass, Settings, User, Bookmark } from 'lucide-react';
 
 export const NavItems = () => {
   const pathname = usePathname() || '/';
@@ -25,10 +25,10 @@ export const NavItems = () => {
       position: 'top',
     },
     {
-      name: 'All feeds',
-      href: '/allFeeds',
-      icon: <Globe size={20} />,
-      active: isNavItemActive(pathname, '/allFeeds'),
+      name: 'Subscriptions',
+      href: '/subscriptions',
+      icon: <Bookmark size={20} />,
+      active: isNavItemActive(pathname, '/following'),
       position: 'top',
     },
     {

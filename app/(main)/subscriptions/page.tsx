@@ -4,6 +4,7 @@ import React from 'react';
 import Feeds from '@/public/feeds.json';
 import { Button } from '@/components/ui/button';
 import useSWR from 'swr';
+import { toast } from 'sonner';
 
 const fetchFeeds = async () => {
   try {
@@ -40,8 +41,10 @@ export default function Page() {
     });
 
     if (!res.ok) {
+      toast.error('Failed to update subscriptions');
       console.error('Failed to update subscriptions');
     } else {
+      toast.success('Subscriptions updated successfully');
       console.log('Subscriptions updated successfully');
     }
   }
@@ -59,8 +62,8 @@ export default function Page() {
   let feeds = Feeds.feeds;
   console.log('Feeds:', feeds);
   return (
-    <div className="flex h-full w-full flex-col overflow-hidden">
-      <div className="grid w-full grow grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4 overflow-y-auto">
+    <div className="flex h-full w-full flex-col overflow-hidden px-5 md:overflow-y-auto">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] items-center justify-center gap-4">
         {feeds.map((feed: Feed, index: any) => (
           <RSSFeedChooserCard
             key={index}
@@ -71,7 +74,7 @@ export default function Page() {
         ))}
       </div>
 
-      <div className="flex h-10 w-full shrink-0">
+      <div className="flex h-10 w-full shrink-0 pt-4">
         <Button variant="outline" onClick={applyChanges}>
           Apply Changes
         </Button>

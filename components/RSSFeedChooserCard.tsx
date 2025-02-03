@@ -13,6 +13,7 @@ import {
   FormItem,
   FormLabel,
 } from '@/components/ui/form';
+
 import {
   Card,
   CardContent,
@@ -21,6 +22,19 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+
 import { Switch } from '@/components/ui/switch';
 import useSWR from 'swr';
 
@@ -58,49 +72,37 @@ export function RSSFeedChooserCard(props: RSSFeedChooserCardProps) {
   }
   if (!feed) return <div>Loading...</div>;
   return (
-    <Card className="h-[22rem] border-secondary/30 bg-secondary/15">
-      <CardHeader className="py-4 pt-5">
-        <div className="flex h-16 items-end">
-          <CardTitle className="line-clamp-2 text-[22px]">
-            <p>{feed.title}</p>
-          </CardTitle>
-        </div>
-      </CardHeader>
-
-      <CardContent className="">
-        <div className="flex h-[16rem] flex-col justify-between">
-          <CardDescription className="mb-2 mt-3 overflow-hidden">
-            {feed.description}
-          </CardDescription>
-
-          <Form {...form}>
-            <form className="w-full space-y-6">
-              <div className="space-y-4 pb-8">
-                <FormField
-                  control={form.control}
-                  name="toggledon"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                      <div className="space-y-0.5">
-                        <FormLabel>Toggle RSS feed</FormLabel>
-                      </div>
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={() => {
-                            form.setValue('toggledon', !field.value);
-                            props.toggleButtonFunction(props.url);
-                          }}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </form>
-          </Form>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="flex flex-col">
+      <Form {...form}>
+        <FormField
+          control={form.control}
+          name="toggledon"
+          render={({ field }) => (
+            <FormItem>
+              <Card className="h-60">
+                <CardHeader>
+                  <CardTitle className="line-clamp-1 text-purple-500">{feed.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="h-1/2">
+                  <p className="line-clamp-3 text-gray-400">{feed.description}</p>
+                </CardContent>
+                <CardFooter className="gap-2 text-[#475e7e]">
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={() => {
+                        field.onChange(!field.value);
+                        props.toggleButtonFunction(props.url);
+                      }}
+                    />
+                  </FormControl>
+                  <FormDescription>Subscribe to this feed</FormDescription>
+                </CardFooter>
+              </Card>
+            </FormItem>
+          )}
+        />
+      </Form>
+    </div>
   );
 }
