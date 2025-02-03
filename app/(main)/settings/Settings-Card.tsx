@@ -197,9 +197,7 @@ function SettingsCard(session: SettingForm) {
                             <Switch
                               checked={field.value}
                               onCheckedChange={field.onChange}
-                              disabled={
-                                loadingImage || session.session.user.isTwoFactorEnabled === false
-                              }
+                              disabled={loadingImage || session.session.user.isOAuth}
                             />
                           </FormControl>
                           <FormMessage />

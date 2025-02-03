@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { User, Compass, Bookmark, Settings } from 'lucide-react';
 
 const MobileSidebar = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const navItems = [
     {
       name: 'My feed',
