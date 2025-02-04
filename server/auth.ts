@@ -59,8 +59,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
   providers: [
-    Google,
-    Github,
+    Google({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+      allowDangerousEmailAccountLinking: true,
+    }),
+    Github({
+      clientId: process.env.AUTH_GITHUB_ID,
+      clientSecret: process.env.AUTH_GITHUB_SECRET,
+      allowDangerousEmailAccountLinking: true,
+    }),
 
     /* Returns a user object with their profile data if the credentials are valid and null otherwise */
     Credentials({
