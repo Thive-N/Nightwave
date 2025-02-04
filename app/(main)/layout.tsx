@@ -13,13 +13,13 @@ export default async function RootLayout({
     redirect('/register');
   }
   return (
-    <div>
+    <div className="overflow-hidden">
       <Navbar />
       <div className="flex">
         <Sidebar />
         <div className="w-full">
           <div className="sm:h-[calc(99vh-80px)]">
-            <div className="relative mx-auto flex h-full w-full justify-center overflow-hidden p-4">
+            <div className="relative mx-auto flex h-full w-full justify-center overflow-y-auto p-4 pt-24 sm:pt-4">
               {children}
             </div>
           </div>

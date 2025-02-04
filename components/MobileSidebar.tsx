@@ -38,7 +38,7 @@ const MobileSidebar = () => {
     <div>
       <div
         className={clsx(
-          'fixed right-0 top-0 z-50 h-full w-screen -translate-x-full bg-black/50 font-medium backdrop-blur-sm transition-all md:hidden',
+          'fixed right-0 top-0 z-50 h-full w-screen -translate-x-full bg-black/50 font-medium backdrop-blur-sm transition-transform md:hidden',
           isOpen && 'translate-x-0',
         )}
         id="wrapper"
