@@ -95,7 +95,7 @@ export default function Page() {
         ))}
       </div>
 
-      <div className="flex h-10 w-full shrink-0 pt-4">
+      <div className="mt-5 flex h-10 w-full">
         <Button variant="outline" onClick={applyChanges}>
           Apply Changes
         </Button>

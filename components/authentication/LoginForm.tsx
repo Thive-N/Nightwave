@@ -67,7 +67,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="mt-20 flex items-center justify-center">
+    <div className="flex h-full w-full items-center justify-center">
       <AuthCard
         cardTitle="Log in to Nightwave"
         backButtonHref="/register"

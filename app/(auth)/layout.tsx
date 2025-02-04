@@ -12,7 +12,7 @@ export default async function RootLayout({
     redirect('/home');
   }
   return (
-    <div>
+    <div className="flex h-full w-full flex-col">
       <Navbar />
       {children}
     </div>

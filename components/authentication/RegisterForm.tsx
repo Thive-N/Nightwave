@@ -52,7 +52,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="mt-20 flex h-full items-center justify-center">
+    <div className="flex h-full w-full items-center justify-center">
       <AuthCard
         cardTitle="Register a new account"
         backButtonHref="/login"
