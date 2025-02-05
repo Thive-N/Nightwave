@@ -1,9 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import ogs from 'open-graph-scraper';
 
 /**
- * Returns the image metadata from a url
- *
  * @param url - the url to extract the image from
  * @return the url of the image from the metadata
  */
@@ -16,17 +14,18 @@ export const extractImageURL = async (url: string) => {
   return urls[0].url;
 };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { url } = req.query;
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const url = searchParams.get('url');
 
   if (!url || typeof url !== 'string') {
-    return res.status(400).json({ error: 'Invalid URL' });
+    return NextResponse.json({ error: 'Invalid URL' }, { status: 400 });
   }
 
   try {
     const imageUrl = await extractImageURL(url);
-    res.status(200).json({ imageUrl });
+    return NextResponse.json({ imageUrl }, { status: 200 });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch Open Graph data' });
+    return NextResponse.json({ error: 'Failed to fetch Open Graph data' }, { status: 500 });
   }
 }

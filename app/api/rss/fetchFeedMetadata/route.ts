@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import Parser from 'rss-parser';
 
 interface CroppedOutput {
@@ -26,18 +26,19 @@ export const fetchFeedMetadata = async (url: string): Promise<CroppedOutput> => 
     keywords: feed.categories ?? '',
   };
 };
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { url } = req.query;
+
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const url = searchParams.get('url');
 
   if (!url || typeof url !== 'string') {
-    return res.status(400).json({ error: 'Invalid URL' });
+    return NextResponse.json({ error: 'Invalid URL' }, { status: 400 });
   }
 
   try {
     const feedMetadata = await fetchFeedMetadata(url);
-
-    res.status(200).json({ feedMetadata });
+    return NextResponse.json({ feedMetadata }, { status: 200 });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch Open Graph data' });
+    return NextResponse.json({ error: 'Failed to fetch Open Graph data' }, { status: 500 });
   }
 }
