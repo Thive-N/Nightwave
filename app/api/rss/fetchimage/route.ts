@@ -5,7 +5,7 @@ import ogs from 'open-graph-scraper';
  * @param url - the url to extract the image from
  * @return the url of the image from the metadata
  */
-export const extractImageURL = async (url: string) => {
+const extractImageURL = async (url: string) => {
   const { result } = await ogs({ url });
   let urls = result.ogImage;
   if (!urls || urls.length === 0) {

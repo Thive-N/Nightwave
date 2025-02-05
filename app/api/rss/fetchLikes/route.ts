@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
  * @param guid - the GUID of the feed item
  * @return the number of likes for the feed item
  */
-export const fetchLikes = async (guid: string) => {
+const fetchLikes = async (guid: string) => {
   const count = await prisma.like.count({
     where: {
       feedId: guid,

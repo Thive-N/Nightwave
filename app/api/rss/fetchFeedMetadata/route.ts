@@ -12,7 +12,7 @@ interface CroppedOutput {
   keywords: string[];
 }
 
-export const fetchFeedMetadata = async (url: string): Promise<CroppedOutput> => {
+const fetchFeedMetadata = async (url: string): Promise<CroppedOutput> => {
   const parser = new Parser();
   const feed = await parser.parseURL(url);
   return {
