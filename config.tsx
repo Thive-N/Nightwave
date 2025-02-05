@@ -28,7 +28,7 @@ export const NavItems = () => {
       name: 'Subscriptions',
       href: '/subscriptions',
       icon: <Bookmark size={20} />,
-      active: isNavItemActive(pathname, '/following'),
+      active: isNavItemActive(pathname, '/subscriptions'),
       position: 'top',
     },
     {

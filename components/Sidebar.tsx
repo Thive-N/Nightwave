@@ -143,7 +143,7 @@ export const SideNavItem: React.FC<{
                 </div>
               </Link>
             </TooltipTrigger>
-            <TooltipContent side="left" className="px-3 py-1.5 text-xs" sideOffset={10}>
+            <TooltipContent side="left" className="z-50 px-3 py-1.5 text-xs" sideOffset={10}>
               <span>{label}</span>
             </TooltipContent>
           </Tooltip>

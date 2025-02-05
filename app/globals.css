@@ -89,6 +89,10 @@
   }
 }
 
+body {
+  overflow: hidden;
+}
+
 /* Turn on custom 8px wide scrollbar */
 ::-webkit-scrollbar {
   width: 8px; /* 1px wider than Lion. */
