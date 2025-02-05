@@ -29,6 +29,7 @@ export default function Page() {
     } else {
       toggledfeeds.push(url);
     }
+    applyChanges();
   }
 
   async function applyChanges() {
@@ -43,7 +44,14 @@ export default function Page() {
     if (!res.ok) {
       toast.error('Failed to update subscriptions');
       console.error('Failed to update subscriptions');
-    } else {
+    }
+
+    return res;
+  }
+
+  async function applyChangesWithToast() {
+    let res = await applyChanges();
+    if (res.ok) {
       toast.success('Subscriptions updated successfully');
       console.log('Subscriptions updated successfully');
     }
@@ -73,10 +81,6 @@ export default function Page() {
       </div>
     );
 
-  userFeeds.forEach((feed: any) => {
-    toggleFeed(feed);
-  });
-
   function checkEnabled(url: string) {
     return toggledfeeds.includes(url);
   }
@@ -96,7 +100,7 @@ export default function Page() {
       </div>
 
       <div className="mt-5 flex h-10 w-full">
-        <Button variant="outline" onClick={applyChanges}>
+        <Button variant="outline" onClick={applyChangesWithToast}>
           Apply Changes
         </Button>
       </div>
