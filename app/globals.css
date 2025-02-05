@@ -90,7 +90,8 @@
 }
 
 body {
-  overflow: hidden;
+  padding-top: 80px;
+  overflow-y: hidden;
 }
 
 /* Turn on custom 8px wide scrollbar */
