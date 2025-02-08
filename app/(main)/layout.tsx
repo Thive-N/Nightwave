@@ -15,10 +15,10 @@ export default async function RootLayout({
   return (
     <div className="flex h-full w-full flex-col">
       <Navbar />
-      <div className="flex h-full">
+      <div className="flex h-full sm:pt-[80px]">
         <Sidebar />
         <div className="h-full w-full overflow-y-auto">
-          <div className="sm:h-[calc(99vh-80px)]">
+          <div className="py-[80px] sm:h-[calc(99vh-80px)] sm:py-0">
             <div className="relative mx-auto flex h-full w-full justify-center p-4">{children}</div>
           </div>
         </div>

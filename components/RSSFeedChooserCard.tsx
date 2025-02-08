@@ -37,7 +37,7 @@ import Skeleton from '@mui/material/Skeleton';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-
+import { toast } from 'sonner';
 import { Switch } from '@/components/ui/switch';
 import useSWR from 'swr';
 
@@ -109,6 +109,11 @@ export function RSSFeedChooserCard(props: RSSFeedChooserCardProps) {
                       onCheckedChange={() => {
                         field.onChange(!field.value);
                         props.toggleButtonFunction(props.url);
+                        toast.success(
+                          field.value
+                            ? `Unsubscribed from ${feed.title}`
+                            : `Subscribed to ${feed.title}`,
+                        );
                       }}
                     />
                   </FormControl>
