@@ -77,7 +77,7 @@ export function RSSFeedChooserCard(props: RSSFeedChooserCardProps) {
     return (
       <div
         role="status"
-        className="h-56 max-w-sm animate-pulse rounded-sm border border-gray-200 p-4 shadow-sm dark:border-gray-700 md:p-6"
+        className="h-60 max-w-sm animate-pulse rounded-sm border border-gray-200 p-4 shadow-sm dark:border-gray-700 md:p-6"
       >
         <div className="mb-4 h-16 w-full rounded bg-gray-200 dark:bg-gray-600"></div>
         <div className="mb-2.5 h-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>

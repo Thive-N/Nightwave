@@ -9,7 +9,7 @@ export default async function Navbar() {
   const session = await auth();
 
   return (
-    <nav className="fixed top-0 z-50 flex h-20 w-full flex-row items-center justify-between border-b bg-background px-6 sm:z-0">
+    <nav className="sticky top-0 z-50 flex h-20 w-full flex-row items-center justify-between border-b bg-background px-6">
       <ul className="flex w-full items-center justify-between">
         <li className="flex items-center gap-4 text-2xl font-bold text-primary/90 lg:text-3xl">
           <MobileSidebar />

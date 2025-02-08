@@ -87,7 +87,7 @@ export default function Page() {
   let feeds = Feeds.feeds;
   console.log('Feeds:', feeds);
   return (
-    <div className="flex h-full w-full flex-col overflow-hidden px-5 md:overflow-y-auto">
+    <div className="flex h-full w-full flex-col px-5">
       <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] items-center justify-center gap-4">
         {feeds.map((feed: Feed, index: any) => (
           <RSSFeedChooserCard
